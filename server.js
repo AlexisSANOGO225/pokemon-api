@@ -4,9 +4,18 @@ const app = express();
 const PORT = 3000;
 
 app.get("/", (req, res) => {
-    res.json({ message: "Bienvenue dans l'API Pokémon" });
+    res.json({ message: "Welcome to Pokemon API" });
 });
 
-app.listen(PORT, () => {
-    console.log(`Le serveur tourne sur le port {PORT}`);
-});
+function getPokemonName(id) {
+    const pokemons = ["Pikachu", "Bulbasaur", "Charmander"];
+    return pokemons[id] || null;
+}
+
+module.exports = { app, getPokemonName };
+
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
