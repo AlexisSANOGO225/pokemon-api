@@ -1,6 +1,6 @@
 const { getPokemonName } = require("../server");
 
-test("getPokemonName returns correct pokemon", () => {
+testo("getPokemonName returns correct pokemon", () => {
     expect(getPokemonName(0)).toBe("Pikachu");
 });
 
