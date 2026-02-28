@@ -4,9 +4,9 @@ const app = express();
 const PORT = 3000;
 
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to Pokemon API" });
+    res.json({ message: "Bienvenue dans l'API Pokémon" });
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running on port {PORT}`);
+    console.log(`Le serveur tourne sur le port {PORT}`);
 });
