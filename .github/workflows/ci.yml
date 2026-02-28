@@ -22,3 +22,16 @@ jobs:
             
             - name: Run tests
               run: npm test
+
+    build-local:
+        runs-on: self-hosted
+    
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
+            - name: Node version
+              run: node -v
+
+            - name: Test runner
+              run: echo "Running on self-hosted runner"
