@@ -27,11 +27,16 @@ jobs:
         runs-on: self-hosted
     
         steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+            - uses: actions/checkout@v4
 
-            - name: Node version
-              run: node -v
 
-            - name: Test runner
-              run: echo "Running on self-hosted runner"
+            - name: Show API version
+              run: echo "API Version is ${{ vars.API_VERSION }}"
+
+            - name: Use API KEY
+              run: |
+                echo "Using secret API key in safe mode"
+                # Le secret ne doit jamais être affiché directement
+                node -e "console.logg('Secret length: ' + process.env.API_KEY.length)"
+              env:
+                API_KEY: ${{ secrets.API_KEY }}
