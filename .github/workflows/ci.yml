@@ -7,36 +7,37 @@ on:
         branches: [ main ]
 
 jobs:
-    build-cloud:
+    unit-tests:
         runs-on: ubuntu-latest
 
         container:
             image: node:22
-        
+
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
 
             - name: Install dependencies
               run: npm install
-            
-            - name: Run tests
-              run: npm test
 
-    build-local:
-        runs-on: self-hosted
+            - name: Run unit tests
+              run: npx jest __tests__/unit.test.js
     
+    integration-tests:
+        needs: unit-tests
+        runs-on: self-hosted
+
         steps:
-            - uses: actions/checkout@v4
+            - name: Checkout repository
+              uses: actions/checkout@v4
 
+            - name: Setup Node 22
+              uses: actions/setup-node@v4
+              with:
+                node-version: 22
 
-            - name: Show API version
-              run: echo "API Version is ${{ vars.API_VERSION }}"
-
-            - name: Use API KEY
-              run: |
-                echo "Using secret API key in safe mode"
-                # Le secret ne doit jamais être affiché directement
-                node -e "console.log('Secret length: ' + process.env.API_KEY.length)"
-              env:
-                API_KEY: ${{ secrets.API_KEY }}
+            - name: Install dependencies
+              run: npm install
+            
+            - name: Run integration tests
+              run: npx jest __tests__/integration.test.js
