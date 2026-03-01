@@ -16,7 +16,9 @@ jobs:
             - run: npx jest __tests__/unit.test.js
             - name: Save unit test artifact
               run: |
-                tar -czf test-artifact.tar.gz --exclude=test-artifact.tar.gz .
+                mkdir -p test-artifact
+                cp -r __tests__ package.json package-lock.json server.js test-artifact/
+                tar -czf test-artifact.tar.gz -C test-artifact .
             - uses: actions/upload-artifact@v4
               with:
                 name: unit-test-artifact
