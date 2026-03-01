@@ -15,11 +15,14 @@ jobs:
             - run: npm install
             - run: npx jest __tests__/unit.test.js
             - name: Save unit test artifact
-              run: mkdir -p test-results && cp -r . test-results/
+              run: |
+                mkdir -p test-artifact
+                cp -r __tests__ package.json package-lock.json server.js test-artifact/
+                tar -czf test-artifact.tar.gz -C test-artifact .
             - uses: actions/upload-artifact@v4
               with:
                 name: unit-test-artifact
-                path: test-results
+                path:  test-artifact.tar.gz
                 retention-days: 7
 
     integration-tests:
@@ -35,4 +38,7 @@ jobs:
               with:
                 name: unit-test-artifact
                 path: downloaded-tests
-            - run: npx jest __tests__/integration.test.js
+            - run: |
+                cd downloaded-tests
+                tar -xzf test-artifact.tar.gz
+            - run: cd downloaded-tests && npx jest __tests__/integration.test.js
