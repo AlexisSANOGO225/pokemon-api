@@ -15,7 +15,7 @@ jobs:
             - run: npm install
             - run: npx jest __tests__/unit.test.js
             - name: Save unit test artifact
-              run: mkdir -p test-results && cp -r __tests__ test-results/
+              run: mkdir -p test-results && cp -r . test-results/
             - uses: actions/upload-artifact@v4
               with:
                 name: unit-test-artifact
